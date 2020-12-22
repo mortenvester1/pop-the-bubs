@@ -11,33 +11,40 @@ import GameplayKit
 
 class GameViewController: UIViewController {
 
+    @IBOutlet weak var scoreLabel:UILabel?
+    @IBOutlet weak var levelLabel:UILabel?
+    @IBOutlet weak var comboLabel:UILabel?
+    @IBOutlet weak var highScoreLabel:UILabel?
+    @IBOutlet weak var resetHighScoreButton:UIButton?
+    @IBOutlet weak var resetGameButton:UIButton?
+    
+    var score = 0
+    var highScore = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let scene = GameScene.newGameScene()
-
-        // Present the scene
-        let skView = self.view as! SKView
-        skView.presentScene(scene)
+        updateScoreLabel()
+        updateHighScoreLabel()
+        updateLevelLabel()
+        updateComboLabel()
+    }
+    
+    func updateScoreLabel(){
+        //scoreLabel = Score.compute()
+    }
+    
+    func updateHighScoreLabel(){
         
-        skView.ignoresSiblingOrder = true
-        skView.showsFPS = true
-        skView.showsNodeCount = true
     }
+    
+    func updateLevelLabel(){
+    
+    }
+    
+    func updateComboLabel(){
+        
+    }
+    
 
-    override var shouldAutorotate: Bool {
-        return true
-    }
-
-    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-        if UIDevice.current.userInterfaceIdiom == .phone {
-            return .allButUpsideDown
-        } else {
-            return .all
-        }
-    }
-
-    override var prefersStatusBarHidden: Bool {
-        return true
-    }
 }
