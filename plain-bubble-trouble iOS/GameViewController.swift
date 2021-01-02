@@ -7,44 +7,26 @@
 
 import UIKit
 import SpriteKit
-import GameplayKit
 
 class GameViewController: UIViewController {
 
-    @IBOutlet weak var scoreLabel:UILabel?
-    @IBOutlet weak var levelLabel:UILabel?
-    @IBOutlet weak var comboLabel:UILabel?
-    @IBOutlet weak var highScoreLabel:UILabel?
-    @IBOutlet weak var resetHighScoreButton:UIButton?
-    @IBOutlet weak var resetGameButton:UIButton?
-    
-    var score = 0
-    var highScore = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        updateScoreLabel()
-        updateHighScoreLabel()
-        updateLevelLabel()
-        updateComboLabel()
-    }
-    
-    func updateScoreLabel(){
-        //scoreLabel = Score.compute()
-    }
-    
-    func updateHighScoreLabel(){
+        let scene = GameScene(size: view.bounds.size)
+        let skView = view as! SKView
         
-    }
-    
-    func updateLevelLabel(){
-    
-    }
-    
-    func updateComboLabel(){
+        skView.ignoresSiblingOrder = true
+        scene.scaleMode = .resizeFill
         
-    }
+        skView.presentScene(scene)
+
+      }
+      
+      override var prefersStatusBarHidden: Bool {
+        return true
+      }
     
 
 }
