@@ -46,7 +46,7 @@ class GameScene: SKScene {
     
     // starting function?
     override func didMove(to view: SKView) {
-        backgroundColor = SKColor.black
+        backgroundColor = SKColor.white
         
         initScoreLabel()
         initLevelLabel()
@@ -79,7 +79,7 @@ class GameScene: SKScene {
         scoreLabel = SKLabelNode(fontNamed: "Chalkduster")
         scoreLabel.text = "score: \(score)"
         scoreLabel.position = CGPoint(x: Double(size.width) * 0.1, y: Double(size.height) * 0.4)
-        scoreLabel.fontColor = SKColor.green
+        scoreLabel.fontColor = SKColor.black
         scoreLabel.fontSize = 16
         scoreLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.left
         scoreLabel.name = "score"
@@ -90,7 +90,7 @@ class GameScene: SKScene {
         levelLabel = SKLabelNode(fontNamed: "Chalkduster")
         levelLabel.text = "level: \(level)"
         levelLabel.position = CGPoint(x: Double(size.width) * 0.5, y: Double(size.height) * 0.4)
-        levelLabel.fontColor = SKColor.green
+        levelLabel.fontColor = SKColor.black
         levelLabel.fontSize = 16
         levelLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.left
         levelLabel.name = "level"
@@ -113,7 +113,7 @@ class GameScene: SKScene {
         highscoreLabel.text = "reset highscore: \(highscore)"
         
         highscoreLabel.position = CGPoint(x: Double(size.width) * 0.1, y: Double(size.height) * 0.3)
-        highscoreLabel.fontColor = SKColor.green
+        highscoreLabel.fontColor = SKColor.black
         highscoreLabel.fontSize = 16
         highscoreLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.left
         highscoreLabel.name = "reset"
@@ -124,7 +124,7 @@ class GameScene: SKScene {
         let restartGameLabel = SKLabelNode(fontNamed: "Chalkduster")
         restartGameLabel.text = "restart game"
         restartGameLabel.position = CGPoint(x: Double(size.width) * 0.1, y: Double(size.height) * 0.2)
-        restartGameLabel.fontColor = SKColor.green
+        restartGameLabel.fontColor = SKColor.black
         restartGameLabel.fontSize = 16
         restartGameLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.left
         restartGameLabel.name = "restart"
@@ -357,7 +357,7 @@ class GameScene: SKScene {
         let gameOverLabel = SKLabelNode(fontNamed: "Chalkduster")
         gameOverLabel.text = "GAME OVER"
         gameOverLabel.position = CGPoint(x: Double(size.width) * 0.5, y: Double(size.height) * 0.6)
-        gameOverLabel.fontColor = SKColor.green
+        gameOverLabel.fontColor = SKColor.black
         gameOverLabel.fontSize = 24
         gameOverLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.center
         gameOverLabel.name = "gameover"
@@ -449,7 +449,7 @@ class Bubble : SKSpriteNode {
         
         // SKSprintNode inits
         let texture = SKTexture(imageNamed: "bubble\(label)")
-        super.init(texture: texture, color: UIColor.clear, size: texture.size())
+        super.init(texture: texture, color: UIColor.clear, size: CGSize(width: 28.0, height: 28.0))
         name = String(format: "bubble[%d,%d,%d]", label, yIndex, xIndex)
         position = CGPoint(x: xPos, y: yPos)
     }
