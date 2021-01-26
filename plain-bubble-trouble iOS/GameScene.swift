@@ -11,8 +11,9 @@ class GameScene: SKScene {
 
     let grid = Grid(cellSize:CGFloat(30.0), elementSize:CGFloat(25.0), rows:10, cols:10)!
     var difficulity: Double = 0.4
-    
     var scoreLabel: SKLabelNode!
+    
+    // Setting the score node and logfic for updating
     var score = 0 {
         didSet {
             scoreLabel.text = "score: \(score)"
@@ -122,14 +123,15 @@ class GameScene: SKScene {
     }
     
     func gameOver() {
-        self.children.filter({ ($0.name ?? "").starts(with: "bubble") }).forEach({ $0.removeFromParent() })
+        //grid.removeAllElements(scene: self)
         let gameOverLabel = SKLabelNode(fontNamed: "Chalkduster")
         gameOverLabel.text = "GAME OVER"
         gameOverLabel.position = CGPoint(x: Double(size.width) * 0.5, y: Double(size.height) * 0.6)
         gameOverLabel.fontColor = SKColor.black
-        gameOverLabel.fontSize = 24
+        gameOverLabel.fontSize = 32
         gameOverLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.center
         gameOverLabel.name = "gameover"
+        gameOverLabel.zPosition = 1
         addChild(gameOverLabel)
     }
         
@@ -138,8 +140,8 @@ class GameScene: SKScene {
     }
     
     
-    // starting function?
     override func didMove(to view: SKView) {
+        // Initalize the scene
         backgroundColor = SKColor.white
         initScoreLabel()
         initLevelLabel()
@@ -151,55 +153,92 @@ class GameScene: SKScene {
         grid.fillGrid(level: level, scene: self)
     }
     
+    override func update(_ currentTime: CFTimeInterval) {
+        // updates to happen for each frame, e.g. animate background
+        // ignore for now
+    }
+    
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        // regonizes then fingers moves -> do nothing
+        // keep func inplace for instructional purposes
+        for _ in touches {
+            //print("moved \(location)")
+        }
+    }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        // activate after movement ends -> do nothing
+        // keep func inplace for instructional purposes
+        print("[gamescene] TouchesEnded")
+        for _ in touches {
+            //print("ended \(location)")
+        }
+    }
+    
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        // recognizes taps - > do stuff
+        print("[gamescene] TouchesBegan")
         for touch in touches {
             let location = touch.location(in: self)
             let node : SKNode = self.atPoint(location)
             let name : String = node.name ?? ""
-            
+
             if name.starts(with: "element") {
+                // cast as element preserving attrs
+                let element = node as! SKSpriteNode as! Element
                 // combo, score, RoundOver, GameOver
-                print(name)
-                let (comboRound, scoreRound, isRoundOver, isGameOver) = grid.playRound(node: node, level: level, scene: self)
-                if comboRound==0 && isRoundOver==false {
+                print("[gamescene] TouchesBegan \(name) \(element.row),\(element.col)")
+                let (comboRound, scoreRound, actionToRun) = grid.playRound(element: element, level: level, scene: self)
+                
+                // nothing was popped
+                if comboRound==0{
                     break
                 }
                 
-                updateCombo(size: comboRound)
-                updateScore(size: scoreRound)
-                updateHighscore()
-                
-                if isGameOver==true {
-                    gameOver()
-                    print("game over")
-                }
-                if isRoundOver==true {
-                    updateLevel()
-                    print("round over")
+                let finalizeRoundAction = SKAction.run({
+                    self.updateCombo(size: comboRound)
+                    self.updateScore(size: scoreRound)
+                    self.updateHighscore()
                     
-                }
+                    print("here")
+                    if self.grid.gameIsOver==true {
+                        self.gameOver()
+                        print("[gamescene] game over")
+                    }
+                    if self.grid.levelIsOver==true {
+                        self.updateLevel()
+                        self.grid.levelIsOver = false
+                        print("[gamescene] round over")
+                    }
+                })
                 
-                
-                
+                // after action is done -> the board has been filled if required
+                run(SKAction.sequence([actionToRun, grid.waitAction, finalizeRoundAction]), completion: { print("round over") })
+
+
+
             } else if name == "restart" {
-                print("restart game tapped")
-                self.children.filter({ ($0.name ?? "").starts(with: "bubble") }).forEach({ $0.removeFromParent() })
+                print("[gamescene] restart game tapped")
+                grid.removeAllElements(scene: self)
                 resetScore()
                 resetLevel()
                 resetCombo()
                 removeGameOver()
                 grid.fillGrid(level: level, scene: self)
+                grid.levelIsOver = false
+                grid.gameIsOver = false
+                
             } else if name == "reset" {
-                print("reset highscore tapped")
+                print("[gamescene] reset highscore tapped")
                 resetHighscore()
             } else {
-                print("nothing tapped")
+                print("[gamescene] nothing tapped")
             }
         }
-        
+
     }
-    
+
 }
 
 

@@ -8,20 +8,39 @@
 import Foundation
 import SpriteKit
 
-class Element {
+class Element : SKSpriteNode {
     let label: Int
-    var row, col: Int
+    let uuid: String
+    var row: Int
+    var col: Int
     
-    
+    //  override to allow integration with SpriteKit Scene Builder
     required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        // set dumb default values
+        self.label = -1
+        self.row = -1
+        self.col = -1
+        self.uuid = UUID().uuidString
+        super.init(coder:aDecoder)
     }
-    
-    init(row: Int, col:Int, nLabels: Int, difficulty: Double) {
+
+    init(row:Int, col:Int, nLabels: Int, difficulty: Double, size: CGSize, position: CGPoint) {
+        // get label and texture
+        let tempLabel = Element.setLabel(row:row, col: col, nLabels: nLabels, difficulty: difficulty)
+        let texture = SKTexture(imageNamed: "bubble\(tempLabel)")
+
+        // set attrs
+        self.label = tempLabel
         self.row = row
         self.col = col
+        self.uuid = UUID().uuidString
         
-        label = Element.setLabel(row:row, col: col, nLabels: nLabels, difficulty: difficulty)
+        // init parent class
+        super.init(texture: texture, color:SKColor.black, size: size)
+        
+        // set position, label, row, col
+        self.position = position
+        self.name = "element-\(self.uuid)"
     }
     
     
@@ -31,27 +50,6 @@ class Element {
         } else {
             return Int( Double.random(in: 0...1) * Double(nLabels) )
         }
-    }
-    
-    func getSKNodeName() -> String{
-        return "element[\(label),\(row),\(col)]"
-    }
-    
-    func getSKSpriteNode(pos: CGPoint, size: CGSize) -> SKSpriteNode {
-        let node = SKSpriteNode(imageNamed: "bubble\(label)")
-        node.name = getSKNodeName()
-        node.size = size
-        node.position = pos
-        return node
-    }
-    
-}
-
-extension Element: Equatable {
-    static func == (lhs: Element, rhs: Element) -> Bool {
-        return lhs.label == rhs.label &&
-            lhs.row == rhs.col &&
-            lhs.row == rhs.col
     }
 }
 
