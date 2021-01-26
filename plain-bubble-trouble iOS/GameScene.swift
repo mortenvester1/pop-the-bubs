@@ -52,7 +52,7 @@ class GameScene: SKScene {
         highscoreLabel = SKLabelNode(fontNamed: "Chalkduster")
         highscoreLabel.text = "reset highscore: \(highscore)"
         
-        highscoreLabel.position = CGPoint(x: 35.0, y: 235.0)
+        highscoreLabel.position = CGPoint(x: 35.0, y: 205.0)
         highscoreLabel.fontColor = SKColor.black
         highscoreLabel.fontSize = 16
         highscoreLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.left
@@ -99,7 +99,7 @@ class GameScene: SKScene {
     func initComboLabel(){
         comboLabel = SKLabelNode(fontNamed: "Chalkduster")
         comboLabel.text = "combo: \(combo)"
-        comboLabel.position = CGPoint(x: 335.0, y: 250.0)
+        comboLabel.position = CGPoint(x: 335.0, y: 235.0)
         comboLabel.fontColor = SKColor.black
         comboLabel.fontSize = 16
         comboLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.right
@@ -114,7 +114,7 @@ class GameScene: SKScene {
     func initRestartGameButton(){
         let restartGameLabel = SKLabelNode(fontNamed: "Chalkduster")
         restartGameLabel.text = "restart game"
-        restartGameLabel.position = CGPoint(x: 35.0, y: 250.0)
+        restartGameLabel.position = CGPoint(x: 35.0, y: 235.0)
         restartGameLabel.fontColor = SKColor.black
         restartGameLabel.fontSize = 16
         restartGameLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.left
@@ -123,7 +123,6 @@ class GameScene: SKScene {
     }
     
     func gameOver() {
-        //grid.removeAllElements(scene: self)
         let gameOverLabel = SKLabelNode(fontNamed: "Chalkduster")
         gameOverLabel.text = "GAME OVER"
         gameOverLabel.position = CGPoint(x: Double(size.width) * 0.5, y: Double(size.height) * 0.6)
@@ -187,8 +186,7 @@ class GameScene: SKScene {
             if name.starts(with: "element") {
                 // cast as element preserving attrs
                 let element = node as! SKSpriteNode as! Element
-                // combo, score, RoundOver, GameOver
-                print("[gamescene] TouchesBegan \(name) \(element.row),\(element.col)")
+                // combo, score, actoin
                 let (comboRound, scoreRound, actionToRun) = grid.playRound(element: element, level: level, scene: self)
                 
                 // nothing was popped
@@ -200,8 +198,7 @@ class GameScene: SKScene {
                     self.updateCombo(size: comboRound)
                     self.updateScore(size: scoreRound)
                     self.updateHighscore()
-                    
-                    print("here")
+
                     if self.grid.gameIsOver==true {
                         self.gameOver()
                         print("[gamescene] game over")

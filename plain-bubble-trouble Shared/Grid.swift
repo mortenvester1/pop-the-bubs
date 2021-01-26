@@ -12,7 +12,6 @@ class Grid : SKSpriteNode {
     var rows:Int!
     var cols:Int!
 
-    var mapRowColToUUID: [ String:String ] = [:] // row,col -> element uuid
     var cellSize:CGFloat!
     var elementSize:CGFloat!
     let viewLeftBoundary = CGFloat(35.0)
@@ -121,10 +120,10 @@ class Grid : SKSpriteNode {
             for c in 1...cols {
                 let pos = gridPosition(row: r, col: c)
                 guard let element = readElementByPosition(position:pos, scene:scene) else {
-                    print("[grid] [\(r),\(c)]")
+                    print("[grid] [\(r),\(c)] nil")
                     continue
                 }
-                print("[grid] [\(r),\(c)] [\(element.position.x),\(element.position.y)], name: \(element.name!)")
+                print("[grid] (\(r),\(c)) name: \(element.name!)") //[\(element.position.x),\(element.position.y)],
             }
         }
     }
@@ -170,29 +169,6 @@ class Grid : SKSpriteNode {
         let actionToRun = SKAction.sequence([removeAction, moveAction, updateAction, fillGridAction])
         
         return (combo, score, actionToRun)
-//        print("[grid] before actions: \(actions.count)")
-//        let waitAction = SKAction.wait(forDuration: 0.2)
-//        for (element, action) in actions {
-//            element.run(SKAction.sequence([action, waitAction]))
-//        }
-//        print("[grid] after update")
-//        printGrid(scene: scene)
-        
-//        // checkAnyMovesLeft
-//        if isLevelOver(scene: scene) {
-//            fillGrid(level: level, scene: scene)
-//        } else {
-//            return (combo, score, false, false)
-//        }
-//        //print("after fill")
-//        //printGrid(scene: scene)
-//
-//        if isLevelOver(scene: scene) {
-//            return (combo, score, true, true)
-//        }
-//
-//        return (combo, score, true, false)
-        
     }
     
     func isLevelOver(scene: GameScene) -> Bool {
@@ -335,6 +311,5 @@ class Grid : SKSpriteNode {
     
     func removeAllElements(scene:GameScene) {
         scene.children.filter({ ($0.name ?? "").starts(with: "element")}).forEach({ $0.removeFromParent() })
-        mapRowColToUUID.removeAll()
     }
 }
