@@ -297,7 +297,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "gurpgork.plain-bubble-trouble";
+				PRODUCT_BUNDLE_IDENTIFIER = "gurpgork.pop-the-bubs";
 				PRODUCT_NAME = "plain-bubble-trouble";
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 5.0;
@@ -318,7 +318,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "gurpgork.plain-bubble-trouble";
+				PRODUCT_BUNDLE_IDENTIFIER = "gurpgork.pop-the-bubs";
 				PRODUCT_NAME = "plain-bubble-trouble";
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 5.0;
