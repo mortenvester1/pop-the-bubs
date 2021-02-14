@@ -14,8 +14,8 @@ class Grid : SKSpriteNode {
 
     var cellSize:CGFloat!
     var elementSize:CGFloat!
-    let viewLeftBoundary = CGFloat(35.0)
-    let viewBottomBoundary = CGFloat(300.0)
+    var viewLeftBoundary: CGFloat!
+    var viewBottomBoundary: CGFloat!
     let waitAction = SKAction.wait(forDuration: 0.2)
     let nothingAction = SKAction.run({print("nothing to do")})
     var levelIsOver: Bool = false
@@ -32,15 +32,17 @@ class Grid : SKSpriteNode {
     }
     
     
-    convenience init?(cellSize:CGFloat, elementSize:CGFloat, rows:Int, cols:Int) {
+    convenience init?(minX: CGFloat, minY: CGFloat, cellSize:CGFloat, elementSize:CGFloat, rows:Int, cols:Int) {
         guard let texture = Grid.gridTexture(cellSize: cellSize, elementSize: elementSize, rows: rows, cols:cols) else {
             return nil
         }
-        self.init(texture: texture, color:SKColor.black, size: texture.size())
+        self.init(texture: texture, color:SKColor.white, size: texture.size())
         self.cellSize = cellSize
         self.elementSize = elementSize
         self.rows = rows
         self.cols = cols
+        self.viewLeftBoundary = cellSize / 2.0 //minX
+        self.viewBottomBoundary = 0 //minY
     }
     
     
@@ -53,7 +55,7 @@ class Grid : SKSpriteNode {
             return nil
         }
         // set fill color
-        context.setFillColor(UIColor.black.cgColor)
+        context.setFillColor(UIColor.clear.cgColor)
             
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
@@ -87,10 +89,6 @@ class Grid : SKSpriteNode {
     
     
     func gridPosition(row:Int, col:Int) -> CGPoint {
-        //let ffset = cellSize / 2.0 + 0.5
-        //let x = CGFloat(150) + CGFloat(col) * cellSize - (cellSize * CGFloat(cols)) / 2.0 + offset
-        //let y = CGFloat(500) + CGFloat(rows - row - 1) * cellSize - (cellSize * CGFloat(rows)) / 2.0 + offset
-        
         let centerOffset = cellSize / 2.0
         let x = viewLeftBoundary + CGFloat(col - 1) * cellSize + centerOffset
         let y = viewBottomBoundary + CGFloat(row - 1) * cellSize + centerOffset
@@ -98,7 +96,8 @@ class Grid : SKSpriteNode {
     }
     
     
-    func fillGrid(level: Int, scene: GameScene) {
+    func fillGrid(level: Int, scene: GameScene){
+        print("[grid] fillGrid \(scene)")
         var elements: [Element] = []
         let nLabels:Int = getNumberOfLabels(level: level)
         let difficulty: Double = getDifficulty(level: level)

@@ -36,10 +36,12 @@ class Element : SKSpriteNode {
         self.uuid = UUID().uuidString
         
         // init parent class
-        super.init(texture: texture, color:SKColor.black, size: size)
+        super.init(texture: texture, color:SKColor.white, size: size)
         
         // set position, label, row, col
         self.position = position
+        self.zRotation = CGFloat(.pi * Double.random(in: 0...2))
+        //self.zPosition = 1
         self.name = "element-\(self.uuid)"
     }
     
